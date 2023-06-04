@@ -3,7 +3,7 @@ services:
   traefik:
     image: traefik:v2.9
     container_name: traefik
-    restart: always
+    restart: unless-stopped
     environment:
       - CLOUDFLARE_EMAIL=${CLOUDFLARE_EMAIL}
       - CLOUDFLARE_DNS_API_TOKEN=${CLOUDFLARE_DNS_API_TOKEN}
@@ -38,7 +38,7 @@ services:
     volumes:
       - ./sonarr:/config
       - ${DATA_ROOT}:/data
-    restart: always
+    restart: unless-stopped
     labels:
       - traefik.enable=true
       - traefik.http.routers.sonarr.rule=(Host(`${HOSTNAME}`) && PathPrefix(`/sonarr`))
@@ -64,7 +64,7 @@ services:
     volumes:
       - ./radarr:/config
       - ${DATA_ROOT}:/data
-    restart: always
+    restart: unless-stopped
     labels:
       - traefik.enable=true
       - traefik.http.routers.radarr.rule=(Host(`${HOSTNAME}`) && PathPrefix(`/radarr`))
@@ -89,7 +89,7 @@ services:
       - TZ=${TIMEZONE}
     volumes:
       - ./prowlarr:/config
-    restart: always
+    restart: unless-stopped
     labels:
       - traefik.enable=true
       - traefik.http.routers.prowlarr.rule=(Host(`${HOSTNAME}`) && PathPrefix(`/prowlarr`))
@@ -116,7 +116,7 @@ services:
     volumes:
       - ./qbittorrent:/config
       - ${DOWNLOAD_ROOT}:/data/torrents
-    restart: always
+    restart: unless-stopped
     network_mode: "service:vpn"
     depends_on:
       vpn:
@@ -173,71 +173,71 @@ services:
       interval: 30s
       timeout: 10s
       retries: 3
-    restart: always
+    restart: unless-stopped
     labels:
       # network mode is not supported: https://github.com/containrrr/watchtower/issues/1286#issuecomment-1214291660
       - com.centurylinklabs.watchtower.enable=false
-  jellyfin:
-    image: lscr.io/linuxserver/jellyfin
-    container_name: jellyfin
-    environment:
-      - PUID=${USER_ID}
-      - PGID=${GROUP_ID}
-      - TZ=${TIMEZONE}
-      - JELLYFIN_PublishedServerUrl=${HOSTNAME}/jellyfin
-    volumes:
-      - ./jellyfin:/config
-      - ${DATA_ROOT}:/data
-    ports:
-      - "7359:7359/udp"
-      - "1900:1900/udp"
-    devices:
-      - /dev/dri/renderD128:/dev/dri/renderD128
-      - /dev/dri/card0:/dev/dri/card0
-    restart: always
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.jellyfin.rule=(Host(`${HOSTNAME}`) && PathPrefix(`/jellyfin`))
-      - traefik.http.routers.jellyfin.tls=true
-      - traefik.http.routers.jellyfin.tls.certresolver=myresolver
-      - traefik.http.services.jellyfin.loadbalancer.server.port=8096
-      - homepage.group=Media
-      - homepage.name=Jellyfin
-      - homepage.icon=jellyfin.png
-      - homepage.href=/jellyfin
-      - homepage.description=Media server
-      - homepage.weight=3
-      - homepage.widget.type=jellyfin
-      - homepage.widget.url=http://jellyfin:8096/jellyfin
-      - homepage.widget.key=${JELLYFIN_API_KEY}
-  homepage:
-    image: ghcr.io/benphelps/homepage:latest
-    container_name: homepage
-    environment:
-      - HOMEPAGE_VAR_TITLE=${HOMEPAGE_VAR_TITLE}
-      - HOMEPAGE_VAR_SEARCH_PROVIDER=${HOMEPAGE_VAR_SEARCH_PROVIDER}
-      - HOMEPAGE_VAR_HEADER_STYLE=${HOMEPAGE_VAR_HEADER_STYLE}
-      - HOMEPAGE_VAR_WEATHER_CITY=${HOMEPAGE_VAR_WEATHER_CITY}
-      - HOMEPAGE_VAR_WEATHER_LAT=${HOMEPAGE_VAR_WEATHER_LAT}
-      - HOMEPAGE_VAR_WEATHER_LONG=${HOMEPAGE_VAR_WEATHER_LONG}
-      - HOMEPAGE_VAR_WEATHER_TIME=${TIMEZONE}
-      - HOMEPAGE_VAR_WEATHER_UNIT=${HOMEPAGE_VAR_WEATHER_UNIT}
-    volumes:
-      - ./homepage:/app/config
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-      - ${DATA_ROOT}:/data
-    restart: always
-    command: [sh, -c, "cp -n /app/config/tpl/*.yaml /app/config && node server.js"]
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.homepage.rule=(Host(`${HOSTNAME}`) && PathPrefix(`/`))
-      - traefik.http.routers.homepage.tls=true
-      - traefik.http.routers.homepage.tls.certresolver=myresolver
-      - traefik.http.services.homepage.loadbalancer.server.port=3000
+#  jellyfin:
+#    image: lscr.io/linuxserver/jellyfin
+#    container_name: jellyfin
+#    environment:
+#      - PUID=${USER_ID}
+#      - PGID=${GROUP_ID}
+#      - TZ=${TIMEZONE}
+#      - JELLYFIN_PublishedServerUrl=${HOSTNAME}/jellyfin
+#    volumes:
+#      - ./jellyfin:/config
+#      - ${DATA_ROOT}:/data
+#    ports:
+#      - "7359:7359/udp"
+#      - "1900:1900/udp"
+#    devices:
+#      - /dev/dri/renderD128:/dev/dri/renderD128
+#      - /dev/dri/card0:/dev/dri/card0
+#    restart: always
+#    labels:
+#      - traefik.enable=true
+#      - traefik.http.routers.jellyfin.rule=(Host(`${HOSTNAME}`) && PathPrefix(`/jellyfin`))
+#      - traefik.http.routers.jellyfin.tls=true
+#      - traefik.http.routers.jellyfin.tls.certresolver=myresolver
+#      - traefik.http.services.jellyfin.loadbalancer.server.port=8096
+#      - homepage.group=Media
+#      - homepage.name=Jellyfin
+#      - homepage.icon=jellyfin.png
+#      - homepage.href=/jellyfin
+#      - homepage.description=Media server
+#      - homepage.weight=3
+#      - homepage.widget.type=jellyfin
+#      - homepage.widget.url=http://jellyfin:8096/jellyfin
+#      - homepage.widget.key=${JELLYFIN_API_KEY}
+#  homepage:
+#    image: ghcr.io/benphelps/homepage:latest
+#    container_name: homepage
+#    environment:
+#      - HOMEPAGE_VAR_TITLE=${HOMEPAGE_VAR_TITLE}
+#      - HOMEPAGE_VAR_SEARCH_PROVIDER=${HOMEPAGE_VAR_SEARCH_PROVIDER}
+#      - HOMEPAGE_VAR_HEADER_STYLE=${HOMEPAGE_VAR_HEADER_STYLE}
+#      - HOMEPAGE_VAR_WEATHER_CITY=${HOMEPAGE_VAR_WEATHER_CITY}
+#      - HOMEPAGE_VAR_WEATHER_LAT=${HOMEPAGE_VAR_WEATHER_LAT}
+#      - HOMEPAGE_VAR_WEATHER_LONG=${HOMEPAGE_VAR_WEATHER_LONG}
+#      - HOMEPAGE_VAR_WEATHER_TIME=${TIMEZONE}
+#      - HOMEPAGE_VAR_WEATHER_UNIT=${HOMEPAGE_VAR_WEATHER_UNIT}
+#    volumes:
+#      - ./homepage:/app/config
+#      - /var/run/docker.sock:/var/run/docker.sock:ro
+#      - ${DATA_ROOT}:/data
+#    restart: always
+#    command: [sh, -c, "cp -n /app/config/tpl/*.yaml /app/config && node server.js"]
+#    labels:
+#      - traefik.enable=true
+#      - traefik.http.routers.homepage.rule=(Host(`${HOSTNAME}`) && PathPrefix(`/`))
+#      - traefik.http.routers.homepage.tls=true
+#      - traefik.http.routers.homepage.tls.certresolver=myresolver
+#      - traefik.http.services.homepage.loadbalancer.server.port=3000
   watchtower:
     image: containrrr/watchtower
     container_name: watchtower
-    restart: always
+    restart: unless-stopped
     environment:
       - WATCHTOWER_CLEANUP=true
     volumes:
@@ -245,4 +245,4 @@ services:
 
 networks:
   default:
-    name: docker-compose-nas
+    name: media_stack
