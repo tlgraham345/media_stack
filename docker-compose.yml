@@ -34,10 +34,10 @@ services:
     environment:
       - PUID=${USER_ID}
       - PGID=${GROUP_ID}
-      - TZ=America/Chicago
+      - TZ=${TIMEZONE}
     volumes:
       - ./sonarr:/config
-      - /mnt/data:/data
+      - ${DATA_ROOT}:/data
     restart: unless-stopped
     labels:
       - traefik.enable=true
@@ -60,10 +60,10 @@ services:
     environment:
       - PUID=${USER_ID}
       - PGID=${GROUP_ID}
-      - TZ=America/Chicago
+      - TZ=${TIMEZONE}
     volumes:
       - ./radarr:/config
-      - /mnt/data:/data
+      - ${DATA_ROOT}:/data
     restart: unless-stopped
     labels:
       - traefik.enable=true
@@ -86,7 +86,7 @@ services:
     environment:
       - PUID=${USER_ID}
       - PGID=${GROUP_ID}
-      - TZ=America/Chicago
+      - TZ=${TIMEZONE}
     volumes:
       - ./prowlarr:/config
     restart: unless-stopped
@@ -115,7 +115,7 @@ services:
       - WEBUI_PORT=8080
     volumes:
       - ./qbittorrent:/config
-      - /mnt/data:/data/torrents
+      - ${DATA_ROOT}:/data/torrents
     restart: unless-stopped
     network_mode: "service:vpn"
     depends_on:
