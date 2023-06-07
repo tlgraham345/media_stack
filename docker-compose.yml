@@ -260,4 +260,4 @@ services:
 networks:
   default:
     name: media_stack
-    mode: bridge
+    driver: bridge
