@@ -9,7 +9,7 @@ services:
       - LOG_HTML=${LOG_HTML:-false}
       - CAPTCHA_SOLVER=${CAPTCHA_SOLVER:-none}
       - TZ=${TIMEZONE}
-    labels:
+#    labels:
 #      - traefik.enable=true
 #      - traefik.http.routers.flaresolverr.rule=PathPrefix(`/flaresolverr`)
 #      - traefik.http.routers.flaresolverr.tls=true
