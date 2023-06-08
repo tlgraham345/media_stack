@@ -136,8 +136,6 @@ services:
     volumes:
       - ./qbittorrent:/config
       - ${DATA_ROOT}:/data/torrents
-    ports:
-      - 8080:8080
     restart: unless-stopped
     network_mode: "service:vpn"
     depends_on:
