@@ -1,14 +1,14 @@
 version: "3.9"
 services:
-  flaresolverr:
-    image: ghcr.io/flaresolverr/flaresolverr:latest
-    container_name: flaresolverr
-    restart: always
-    environment:
-      - LOG_LEVEL=${LOG_LEVEL:-info}
-      - LOG_HTML=${LOG_HTML:-false}
-      - CAPTCHA_SOLVER=${CAPTCHA_SOLVER:-none}
-      - TZ=${TIMEZONE}
+#  flaresolverr:
+#    image: ghcr.io/flaresolverr/flaresolverr:latest
+#    container_name: flaresolverr
+#    restart: always
+#    environment:
+#      - LOG_LEVEL=${LOG_LEVEL:-info}
+#      - LOG_HTML=${LOG_HTML:-false}
+#      - CAPTCHA_SOLVER=${CAPTCHA_SOLVER:-none}
+#      - TZ=${TIMEZONE}
 #    labels:
 #      - traefik.enable=true
 #      - traefik.http.routers.flaresolverr.rule=PathPrefix(`/flaresolverr`)
@@ -136,7 +136,7 @@ services:
       vpn:
         condition: service_healthy
     labels:
-      - traefik.enable=false
+#      - traefik.enable=false
 #      - traefik.http.routers.qbittorrent.rule=(Host(`${HOSTNAME}`) && PathPrefix(`/qbittorrent`))
 #      - traefik.http.routers.qbittorrent.tls=true
 #      - traefik.http.routers.qbittorrent.tls.certresolver=myresolver
@@ -260,4 +260,4 @@ services:
 networks:
   default:
     name: media_stack
-#    driver: bridge
+    driver: bridge
