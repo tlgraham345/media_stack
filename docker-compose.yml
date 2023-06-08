@@ -80,6 +80,8 @@ services:
     volumes:
       - ./radarr:/config
       - ${DATA_ROOT}:/data
+    ports:
+     - 7878:7878
     restart: unless-stopped
     labels:
 #      - traefik.enable=true
@@ -105,6 +107,8 @@ services:
       - TZ=${TIMEZONE}
     volumes:
       - ./prowlarr:/config
+    ports:
+     - 9696:9696
     restart: unless-stopped
     labels:
 #      - traefik.enable=true
@@ -132,6 +136,8 @@ services:
     volumes:
       - ./qbittorrent:/config
       - ${DATA_ROOT}:/data/torrents
+    ports:
+      - 8080:8080
     restart: unless-stopped
     network_mode: "service:vpn"
     depends_on:
