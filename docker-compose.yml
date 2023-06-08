@@ -171,6 +171,8 @@ services:
     volumes:
       - ./pia:/pia
       - ./pia-shared:/pia-shared
+    ports:
+      - 8080:8080
     cap_add:
       - NET_ADMIN
       - SYS_MODULE
@@ -254,14 +256,14 @@ services:
 #      - traefik.http.routers.homepage.tls=true
 #      - traefik.http.routers.homepage.tls.certresolver=myresolver
 #      - traefik.http.services.homepage.loadbalancer.server.port=3000
-  watchtower:
-    image: containrrr/watchtower
-    container_name: watchtower
-    restart: unless-stopped
-    environment:
-      - WATCHTOWER_CLEANUP=true
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
+#  watchtower:
+#    image: containrrr/watchtower
+#    container_name: watchtower
+#    restart: unless-stopped
+#    environment:
+#      - WATCHTOWER_CLEANUP=true
+#    volumes:
+#      - /var/run/docker.sock:/var/run/docker.sock
 
 networks:
   default:
