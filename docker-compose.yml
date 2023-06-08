@@ -52,6 +52,8 @@ services:
     volumes:
       - ./sonarr:/config
       - ${DATA_ROOT}:/data
+    ports:
+      - 8989:8989
     restart: unless-stopped
     labels:
 #      - traefik.enable=true
