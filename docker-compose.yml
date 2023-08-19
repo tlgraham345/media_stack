@@ -156,7 +156,6 @@ services:
     ports:
       - 6767:6767
     restart: unless-stopped
-    services:
   tautulli:
     image: lscr.io/linuxserver/tautulli:latest
     container_name: tautulli
