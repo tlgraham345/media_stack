@@ -23,6 +23,9 @@ services:
       - homepage.widget.type=sonarr
       - homepage.widget.url=http://sonarr:8989/sonarr
       - homepage.widget.key=${SONARR_API_KEY}
+    depends_on:
+      qbittorrent:
+        condition: service_healthy
   radarr:
     image: lscr.io/linuxserver/radarr:latest
     container_name: radarr
@@ -46,6 +49,9 @@ services:
       - homepage.widget.type=radarr
       - homepage.widget.url=http://radarr:7878/radarr
       - homepage.widget.key=${RADARR_API_KEY}
+    depends_on:
+      qbittorrent:
+        condition: service_healthy  
   prowlarr:
     image: lscr.io/linuxserver/prowlarr:latest
     container_name: prowlarr
@@ -68,6 +74,9 @@ services:
       - homepage.widget.type=prowlarr
       - homepage.widget.url=http://prowlarr:9696/prowlarr
       - homepage.widget.key=${PROWLARR_API_KEY}
+    depends_on:
+      qbittorrent:
+        condition: service_healthy
   qbittorrent:
     image: lscr.io/linuxserver/qbittorrent:libtorrentv1
     container_name: qbittorrent
@@ -142,6 +151,9 @@ services:
     ports:
       - 8787:8787
     restart: unless-stopped
+    depends_on:
+      qbittorrent:
+        condition: service_healthy  
   bazarr:
     image: lscr.io/linuxserver/bazarr:latest
     container_name: bazarr
@@ -156,6 +168,9 @@ services:
     ports:
       - 6767:6767
     restart: unless-stopped
+    depends_on:
+      qbittorrent:
+        condition: service_healthy
   tautulli:
     image: lscr.io/linuxserver/tautulli:latest
     container_name: tautulli
