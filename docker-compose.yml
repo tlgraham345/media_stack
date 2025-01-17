@@ -84,7 +84,7 @@ services:
       - PUID=${USER_ID}
       - PGID=${GROUP_ID}
       - TZ=${TIMEZONE}
-      - WEBUI_PORT=8080
+      - WEBUI_PORT=8585
     volumes:
       - ./qbittorrent:/config
       - ${DATA_ROOT}:/data/torrents
@@ -111,7 +111,7 @@ services:
       - ./pia:/pia
       - ./pia-shared:/pia-shared
     ports:
-      - 8080:8080
+      - 8585:8585
     cap_add:
       - NET_ADMIN
       - SYS_MODULE
