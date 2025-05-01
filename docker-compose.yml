@@ -72,7 +72,7 @@ services:
       - homepage.description=Movies management
       - homepage.weight=1
       - homepage.widget.type=radarr2
-      - homepage.widget.url=http://radarr2:7777/radarr
+      - homepage.widget.url=http://radarr:7777/radarr
       - homepage.widget.key=${RADARR_API_KEY}
     depends_on:
       qbittorrent:
