@@ -25,35 +25,9 @@ services:
     depends_on:
       qbittorrent:
         condition: service_started
-  radarr2:
-    image: lscr.io/linuxserver/radarr:latest
-    container_name: radarr
-    environment:
-      - PUID=${USER_ID}
-      - PGID=${GROUP_ID}
-      - TZ=${TIMEZONE}
-    volumes:
-      - ./radarr2:/config
-      - ${DATA_ROOT}:/data
-    ports:
-     - 7777:7777
-    restart: unless-stopped
-    labels:
-      - homepage.group=Media
-      - homepage.name=Radarr2
-      - homepage.icon=radarr.png
-      - homepage.href=/radarr2
-      - homepage.description=Movies management
-      - homepage.weight=1
-      - homepage.widget.type=radarr2
-      - homepage.widget.url=http://radarr2:7777/radarr
-      - homepage.widget.key=${RADARR_API_KEY}
-    depends_on:
-      qbittorrent:
-        condition: service_started
   radarr:
     image: lscr.io/linuxserver/radarr:latest
-    container_name: radarr2
+    container_name: radarr
     environment:
       - PUID=${USER_ID}
       - PGID=${GROUP_ID}
@@ -73,6 +47,32 @@ services:
       - homepage.weight=1
       - homepage.widget.type=radarr
       - homepage.widget.url=http://radarr:7878/radarr
+      - homepage.widget.key=${RADARR_API_KEY}
+    depends_on:
+      qbittorrent:
+        condition: service_started
+  radarr2:
+    image: lscr.io/linuxserver/radarr:latest
+    container_name: radarr2
+    environment:
+      - PUID=${USER_ID}
+      - PGID=${GROUP_ID}
+      - TZ=${TIMEZONE}
+    volumes:
+      - ./radarr2:/config
+      - ${DATA_ROOT}:/data
+    ports:
+     - 7777:7777
+    restart: unless-stopped
+    labels:
+      - homepage.group=Media
+      - homepage.name=Radarr2
+      - homepage.icon=radarr.png
+      - homepage.href=/radarr2
+      - homepage.description=Movies management
+      - homepage.weight=1
+      - homepage.widget.type=radarr2
+      - homepage.widget.url=http://radarr2:7777/radarr
       - homepage.widget.key=${RADARR_API_KEY}
     depends_on:
       qbittorrent:
