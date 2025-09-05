@@ -103,7 +103,7 @@ services:
       qbittorrent:
         condition: service_started
   qbittorrent:
-    image: lscr.io/linuxserver/qbittorrent:libtorrentv1
+    image: lscr.io/linuxserver/qbittorrent:latest
     container_name: qbittorrent
     environment:
       - PUID=${USER_ID}
