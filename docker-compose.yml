@@ -206,7 +206,7 @@ services:
     ports:
       - 8191:8191
     volumes:
-      - /var/lib/flaresolver:/config
+      - ./flaresolver:/config
     restart: unless-stopped
     
 networks:
