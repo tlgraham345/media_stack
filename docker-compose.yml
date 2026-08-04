@@ -8,7 +8,7 @@ services:
       - TZ=${TIMEZONE}
     volumes:
       - ./sonarr:/config
-      - ${DATA_ROOT}:/data
+      - ${DATA_ROOT}:/data1
     ports:
       - 8989:8989
     restart: unless-stopped
@@ -34,7 +34,7 @@ services:
       - TZ=${TIMEZONE}
     volumes:
       - ./radarr:/config
-      - ${DATA_ROOT}:/data
+      - ${DATA_ROOT}:/data1
     ports:
      - 7878:7878
     restart: unless-stopped
@@ -60,7 +60,7 @@ services:
       - TZ=${TIMEZONE}
     volumes:
       - ./radarr2:/config
-      - ${DATA_ROOT}:/data
+      - ${DATA_ROOT}:/data1
     ports:
      - 7777:7777
     restart: unless-stopped
@@ -112,7 +112,7 @@ services:
       - WEBUI_PORT=8585
     volumes:
       - ./qbittorrent:/config
-      - ${DATA_ROOT}:/data/torrents
+      - /mnt/data:/data/torrents
     restart: unless-stopped
     network_mode: "service:vpn"
     depends_on:
