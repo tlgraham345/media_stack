@@ -112,7 +112,7 @@ services:
       - WEBUI_PORT=8585
     volumes:
       - ./qbittorrent:/config
-      - ${DATA_ROOT}:/torrents
+      - ${DATA_ROOT}:/data1/torrents
     restart: unless-stopped
     network_mode: "service:vpn"
     depends_on:
